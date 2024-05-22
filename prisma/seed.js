@@ -1,9 +1,9 @@
 const { PrismaClient } = require('@prisma/client');
 const data = require('./data.json');
+const { generateHash } = require('../libs/bcrypt');
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.user.createMany({ data: data.users });
   await prisma.city.createMany({ data: data.cities });
   await prisma.airport.createMany({ data: data.airports });
   await prisma.airline.createMany({ data: data.airlines });
@@ -11,6 +11,15 @@ async function main() {
   await prisma.airplaneSeatClass.createMany({ data: data.airplaneSeatClass });
   await prisma.flight.createMany({ data: data.flights });
   await prisma.ticket.createMany({ data: data.tickets });
+
+  for (const user of data.users) {
+    await prisma.user.create({
+      data: {
+        ...user,
+        password: await generateHash(user.password)
+      }
+    });
+  }
 
   console.log('Data seeding was successful');
 }
