@@ -1,0 +1,52 @@
+POST http://localhost:3000/booking
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "flightId": 5,
+    "adult": 2,
+    "child": 1,
+    "baby": 0,
+    "seatClass": 10,
+    "passenger": [
+        {
+            "title": "Mr",
+            "fullName": "Farrel",
+            "familyName": "Poke",
+            "birthDate": "1990-01-01T00:00:00.000Z",
+            "nationality": "Indonesia",
+            "identityType": "KTP",
+            "issuingCountry": "Indonesia",
+            "identityNumber": "98764924",
+            "expiredDate": "2025-01-01T00:00:00.000Z",
+            "ageGroup": "ADULT"
+        },
+        {
+            "title": "Mr",
+            "fullName": "Cimol",
+            "familyName": "Poke",
+            "birthDate": "1993-02-01T00:00:00.000Z",
+            "nationality": "Indonesia",
+            "identityType": "KTP",
+            "issuingCountry": "Indonesia",
+            "identityNumber": "987651231",
+            "expiredDate": "2025-01-01T00:00:00.000Z",
+            "ageGroup": "ADULT"
+        },
+        {
+            "title": "Mr",
+            "fullName": "Mascuk",
+            "familyName": "Poke",
+            "birthDate": "1993-02-01T00:00:00.000Z",
+            "nationality": "Indonesia",
+            "identityType": "KTP",
+            "issuingCountry": "Indonesia",
+            "identityNumber": "987651231",
+            "expiredDate": "2025-01-01T00:00:00.000Z",
+            "ageGroup": "ADULT"
+        }
+    ]
+}
+
+###
+GET http://localhost:3000/api/v1/flights

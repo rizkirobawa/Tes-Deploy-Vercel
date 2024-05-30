@@ -1,0 +1,26 @@
+Run API Paymen Gateway Midtrans
+1. yarn dev di project nya
+2. run ngrok http 3000 (s) di terminal sesuai lokasi project
+3. Put domain from ngrok 
+    copy link:
+    example: https://706d-158-140-171-99.ngrok-free.app
+4. Put domain from ngrok to midtrans web on notification email for API confirmation
+    - buka web https://dashboard.midtrans.com/
+    - login:
+        aviatick2024@gmail.com
+        Aviatick2024
+    - ganti environment ke Sandbox
+    - Ke pengaturan terus cari bagian payment
+    - Buka yang URL Notifikasi
+    - copy link:
+        - masukan di kolom yang Endpoint URL Notifikasi
+        sesuain sama link ngrok nya terus ditambahi /api/v1/payments/midtrans/confirm
+        example: https://706d-158-140-171-99.ngrok-free.app/api/v1/payments/midtrans/confirm
+
+
+
+
+
+
+
+
