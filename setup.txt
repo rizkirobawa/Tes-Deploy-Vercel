@@ -18,6 +18,10 @@ Run API Paymen Gateway Midtrans
         example: https://706d-158-140-171-99.ngrok-free.app/api/v1/payments/midtrans/confirm
 
 
+Deploy vercel
+1. npx prisma migrate dev
+2. npx prisma db seed
+
 
 
 
