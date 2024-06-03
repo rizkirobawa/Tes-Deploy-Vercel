@@ -56,7 +56,7 @@ POST https://tes-deploy-vercel-two.vercel.app/booking
 Content-Type: application/json
 
 {
-    "userId": 1,
+    "userId": 5,
     "flightId": 5,
     "adult": 2,
     "child": 1,

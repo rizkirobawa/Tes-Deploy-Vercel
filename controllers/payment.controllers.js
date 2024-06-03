@@ -44,6 +44,8 @@ module.exports = {
         include: {
           flight: true,
           user: true,
+          tickets: true,
+          passengers: true, 
         },
       });
 
@@ -63,6 +65,14 @@ module.exports = {
         });
       }
 
+
+      const itemDetails = checkBook.tickets.map((ticket) => ({
+        id: ticket.id,
+        price: ticket.price,
+        quantity: checkBook.passengers.length,
+        name: `Ticket for Flight ${checkBook.flight.id}`,
+      }));
+
       const parameter = {
         transaction_details: {
           order_id: `BOOKING-${checkBook.id}-${Date.now()}`,
@@ -76,6 +86,7 @@ module.exports = {
           email: checkBook.user.email,
           phone: checkBook.user.phoneNumber,
         },
+        item_details: itemDetails,
       };
 
       const transaction = await snap.createTransaction(parameter);
