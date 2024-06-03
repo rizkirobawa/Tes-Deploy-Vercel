@@ -44,8 +44,6 @@ module.exports = {
         include: {
           flight: true,
           user: true,
-          tickets: true,
-          passengers: true, 
         },
       });
 
@@ -65,14 +63,6 @@ module.exports = {
         });
       }
 
-
-      const itemDetails = checkBook.tickets.map((ticket) => ({
-        id: ticket.id,
-        price: ticket.price,
-        quantity: checkBook.passengers.length,
-        name: `Ticket for Flight ${checkBook.flight.id}`,
-      }));
-
       const parameter = {
         transaction_details: {
           order_id: `BOOKING-${checkBook.id}-${Date.now()}`,
@@ -86,10 +76,10 @@ module.exports = {
           email: checkBook.user.email,
           phone: checkBook.user.phoneNumber,
         },
-        item_details: itemDetails,
       };
 
       const transaction = await snap.createTransaction(parameter);
+
       res.status(200).json({
         status: true,
         message: 'Token retrieved successfully',
@@ -118,20 +108,16 @@ module.exports = {
           gross_amount,
           payment_type,
         } = req.body;
-
-        if (
-          transaction_status !== 'capture' &&
-          transaction_status !== 'settlement'
-        ) {
+  
+        if (transaction_status !== 'capture' && transaction_status !== 'settlement') {
           if (!res.headersSent) {
             return res.status(400).json({
               status: false,
-              message:
-                'Transaction is not successful. Status: ' + transaction_status,
+              message: 'Transaction is not successful. Status: ' + transaction_status,
             });
           }
         }
-
+  
         const parts = order_id.split('-');
         if (parts.length < 2 || isNaN(parseInt(parts[1]))) {
           if (!res.headersSent) {
@@ -142,7 +128,7 @@ module.exports = {
           }
         }
         const bookingId = parseInt(parts[1]);
-
+  
         if (isNaN(bookingId)) {
           if (!res.headersSent) {
             return res.status(400).json({
@@ -151,7 +137,7 @@ module.exports = {
             });
           }
         }
-
+  
         const newPayment = await prisma.payment.create({
           data: {
             name: payment_type,
@@ -159,37 +145,33 @@ module.exports = {
             bookingId: bookingId,
           },
         });
-
+  
         const updatedBooking = await prisma.booking.update({
           where: { id: bookingId },
           data: { status: 'PAID' },
         });
 
         // Create a notification for the user
-        const notification = await prisma.notification.create({
-          data: {
-            title: 'Pembayaran Berhasil',
-            message: `Pembayaran untuk booking ID ${bookingId} telah berhasil.`,
-            userId: updatedBooking.userId,
-            createdAt: new Date(),
-          },
-        });
-
-        return {
-          newPaymentId: newPayment.id,
-          updatedBookingId: updatedBooking.id,
-          notificationId: notification.id,
-        };
+      const notification = await prisma.notification.create({
+        data: {
+          title: 'Payment Successfully',
+          message: `Payment for booking ID ${bookingId} has been successfully.`,
+          userId: updatedBooking.userId,
+          createdAt: new Date(),
+        },
       });
-
+  
+        return { newPaymentId: newPayment.id, updatedBookingId: updatedBooking.id, notificationId: notification.id };
+      });
+  
       if (transactionResult && !res.headersSent) {
         res.status(200).json({
           status: true,
           message: 'Payment confirmed and booking status updated successfully',
           data: {
             newPaymentId: transactionResult.newPaymentId,
-            updatedBookingId: transactionResult.updatedBookingId,
-          },
+            updatedBookingId: transactionResult.updatedBookingId
+          }
         });
       } else if (!res.headersSent) {
         res.status(500).json({
@@ -220,8 +202,7 @@ module.exports = {
         });
       }
 
-      const { paymentMethod, cardNumber, cardHolderName, cvv, expiryDate } =
-        req.body;
+      const { paymentMethod, cardNumber, cardHolderName, cvv, expiryDate } = req.body;
       if (!paymentMethod) {
         return res.status(400).json({
           status: false,
@@ -256,8 +237,8 @@ module.exports = {
       // Create a notification for the user
       await prisma.notification.create({
         data: {
-          title: 'Pembayaran Berhasil',
-          message: `Pembayaran untuk booking ID ${bookingId} telah berhasil.`,
+          title: 'Payment Successfully',
+          message: `Payment for booking ID ${bookingId} has been successfully.`,
           userId: booking.userId,
           createdAt: new Date(),
         },
@@ -284,13 +265,13 @@ module.exports = {
       }
 
       // Update booking status to PAID
-      const updatedBooking = await prisma.booking.update({
+      await prisma.booking.update({
         where: { id: bookingId },
         data: { status: 'PAID' },
       });
 
       // Create a payment record
-      const newPayment = await prisma.payment.create({
+      await prisma.payment.create({
         data: {
           name: paymentMethod,
           paidAt: new Date(),
@@ -301,7 +282,7 @@ module.exports = {
       res.status(200).json({
         status: true,
         message: responseMessage,
-        data: { booking: updatedBooking, payment: newPayment },
+        data: null,
       });
     } catch (error) {
       console.error('Payment validation failed:', error);

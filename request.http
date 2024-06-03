@@ -61,7 +61,7 @@ Content-Type: application/json
     "adult": 2,
     "child": 1,
     "baby": 0,
-    "seatClass": 1,
+    "seatClass": 3,
     "passenger": [
         {
             "title": "Mr",
