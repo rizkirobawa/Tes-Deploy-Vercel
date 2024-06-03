@@ -61,7 +61,6 @@
       document
         .getElementById('pay-button')
         .addEventListener('click', async function () {
-          // const paymentMethod = document.getElementById('paymentMethod').value;
           const bookingId = document.getElementById('bookingId').value;
           const paymentMethod = 'midtrans';
 
@@ -83,7 +82,6 @@
               onSuccess: function (result) {
                 alert('Payment success!');
                 console.log(result);
-                // window.location.href = '/'; // Redirect on success
               },
               onPending: function (result) {
                 alert('Waiting for your payment...');

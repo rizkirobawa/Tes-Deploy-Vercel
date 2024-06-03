@@ -3,11 +3,11 @@ Content-Type: application/json
 
 {
     "userId": 1,
-    "flightId": 5,
+    "flightId": 1,
     "adult": 2,
     "child": 1,
     "baby": 0,
-    "seatClass": 10,
+    "seatClass": 1,
     "passenger": [
         {
             "title": "Mr",
@@ -56,12 +56,12 @@ POST https://tes-deploy-vercel-two.vercel.app/booking
 Content-Type: application/json
 
 {
-    "userId": 5,
-    "flightId": 5,
+    "userId": 1,
+    "flightId": 1,
     "adult": 2,
     "child": 1,
     "baby": 0,
-    "seatClass": 10,
+    "seatClass": 1,
     "passenger": [
         {
             "title": "Mr",
