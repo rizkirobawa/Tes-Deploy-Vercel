@@ -66,8 +66,8 @@
           const paymentMethod = 'midtrans';
 
           const response = await fetch(
-            // `https://tes-deploy-vercel-two.vercel.app/api/v1/payments/midtrans/token/${bookingId}`,
-            `http://localhost:3000/api/v1/payments/midtrans/token/${bookingId}`,
+            `https://tes-deploy-vercel-two.vercel.app/api/v1/payments/midtrans/token/${bookingId}`,
+            // `http://localhost:3000/api/v1/payments/midtrans/token/${bookingId}`,
             {
               method: 'POST',
               headers: {
